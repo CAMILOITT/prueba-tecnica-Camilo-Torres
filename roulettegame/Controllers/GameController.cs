@@ -34,7 +34,7 @@ namespace roulettegame.Controllers
             _context = context;
         }
 
-        [HttpPost]
+        [HttpPost]  
         public async Task<ActionResult> Game([FromBody] BetDT valueGame)
         {
 
