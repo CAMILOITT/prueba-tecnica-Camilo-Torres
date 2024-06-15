@@ -1,16 +1,15 @@
-﻿namespace roulettegame.utils
+﻿using roulettegame.Controllers;
+
+namespace roulettegame.utils
 {
     public enum ETypeBet
     {
-      Number,  Red, Black,  Even, Odd
+        Number, Red, Black, Even, Odd
     }
 
     public interface IBetClient
     {
-        ETypeBet TypeBet { get; }
-        int Number { get; }
-        string Color { get; }
-        decimal Bet { get; }
+        public List<ValueBetDT> Bet { get; set; }
     }
 
     public class ResultGame
@@ -52,25 +51,34 @@
 
         private void ResultBet()
         {
-            if (ClientBet.TypeBet == ETypeBet.Number && ClientBet.Number == Number)
+
+            foreach (var bet in ClientBet.Bet)
             {
-                _gain = ClientBet.Bet * 3;
-                _isWin = true;
+                if (bet.TypeBet == ETypeBet.Number &&  int.Parse(bet.Value)  == Number)
+                {
+                    _gain = bet.amount+ (bet.amount * 3);
+                    _isWin = true;
+                }
+                else if (bet.TypeBet == ETypeBet.Red || bet.TypeBet == ETypeBet.Black)
+                {
+                    _gain = bet.amount + ( bet.amount / 2);
+                    _isWin = true;
+                }
+                else if (bet.TypeBet == ETypeBet.Odd && int.Parse(bet.Value) == 1 || bet.TypeBet == ETypeBet.Even && int.Parse(bet.Value) % 2 == 0)
+                {
+                    _gain = bet.amount * 2;
+                    _isWin = true;
+                }
+                else
+                {
+                    if (_isWin == false)
+                    {
+                        _isWin = false;
+                        _gain = -bet.amount;
+                    }
+                }
             }
-            else if (ClientBet.TypeBet == ETypeBet.Red || ClientBet.TypeBet == ETypeBet.Black)
-            {
-                _gain = ClientBet.Bet / 2;
-                _isWin = true;
-            }
-            else if (ClientBet.TypeBet == ETypeBet.Odd && ClientBet.Number % 2 == 1 || ClientBet.TypeBet == ETypeBet.Even && ClientBet.Number % 2 == 0)
-            {
-                _gain = ClientBet.Bet;
-                _isWin = true;
-            } else
-            {
-                _isWin = false;
-                _gain = -ClientBet.Bet;
-            }
+
         }
 
         public ResultGame GetResult()

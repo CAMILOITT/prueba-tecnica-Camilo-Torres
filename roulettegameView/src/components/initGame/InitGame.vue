@@ -1,30 +1,51 @@
 <script setup lang="ts">
+import { inject, ref } from 'vue';
+import { UserInformation, UserInject } from '../../type/user';
 
-function getUser() {
+const { setName, setMoney } = inject('infoUser') as UserInject
 
+const nameValue = ref()
+const visibilityComponent = ref(true)
+async function getUser() {
+  fetch('https://localhost:44342/api/Player/GetPlayer', {
+    method: 'POST',
+    body: JSON.stringify({ name: `${nameValue.value}` }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json()).then((data: UserInformation) => {
+    console.log(data);
+    setName(data.name)
+    setMoney(data.amount)
+    visibilityComponent.value = false
+
+  }).catch(e => console.log(e))
 }
+
+function initAnonymous() {
+  setName("Anonymous")
+  setMoney(100)
+  visibilityComponent.value = false
+}
+
 
 </script>
 
 <template>
-  <div class="session">
+  <div class="session" v-if="visibilityComponent">
     <h1>Bienvenido al juego de la ruleta</h1>
     <div class="login">
       <label for="Username">
         nombre de usuario:
-        <input type="text" name="username" id="Username">
+        <input type="text" name="username" id="Username" :value="nameValue"
+          @input="event => nameValue = `${(event?.target as HTMLInputElement)!.value as string}`">
       </label>
-      <button>ingresar con cuenta</button>
+      <button @click="getUser">ingresar con cuenta</button>
     </div>
     <div class="separation"></div>
     <div class="anonymous">
-      <button>ingresar como anónimo</button>
+      <button @click="initAnonymous">ingresar como anónimo</button>
     </div>
-    <!-- <div class="mount">
-      <p>monto a abonar a la cuenta</p>
-      <input type="number">
-      <button>iniciar juego</button>
-    </div> -->
   </div>
 </template>
 
@@ -44,6 +65,10 @@ function getUser() {
   & button {
     padding: .5rem 1rem;
   }
+}
+
+.session-hidden{
+  display: none;
 }
 
 .mount {

@@ -1,9 +1,25 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { provide, reactive } from 'vue'
 import InformationUser from './components/informationUser/InformationUser.vue'
 import InitGame from './components/initGame/InitGame.vue'
-import TableBet from './components/tableBet/TableBet.vue'
 import SaveGame from './components/saveGame/SaveGame.vue'
+import TableBet from './components/tableBet/TableBet.vue'
+
+const infoUser = reactive({
+  name: '',
+  amount: 0,
+  gain: 0
+})
+
+function setName(name: string){
+infoUser.name = name
+}
+
+function setMoney(money: number){
+  infoUser.amount = money
+}
+
+provide('infoUser', { infoUser, setName, setMoney })
 
 // onMounted(() => {
 //   window.addEventListener('beforeunload', (event) => {
@@ -16,7 +32,7 @@ import SaveGame from './components/saveGame/SaveGame.vue'
 
 <template>
   <main class="main">
-    <InformationUser user="Camilo" :money="100" />
+    <InformationUser />
     <TableBet class="table" />
     <SaveGame />
     <InitGame/>

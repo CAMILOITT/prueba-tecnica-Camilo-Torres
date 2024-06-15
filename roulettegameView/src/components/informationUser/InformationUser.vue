@@ -1,17 +1,16 @@
 <script setup lang="ts">
+import { inject } from 'vue';
+import { UserInject } from '../../type/user';
 
-interface Props {
-  user: string
-  money: number
-}
 
-defineProps<Props>()
+
+const { infoUser } = inject('infoUser') as UserInject
 </script>
 
 <template>
   <div class="info-player">
-    <h3>{{ user }}</h3>
-    <span>$ {{ money }}</span>
+    <h3>{{ infoUser.name }}</h3>
+    <span>$ {{ infoUser.amount }}</span>
   </div>
 </template>
 
