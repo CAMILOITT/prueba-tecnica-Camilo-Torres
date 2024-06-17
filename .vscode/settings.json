@@ -5,25 +5,6 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "[!r]*/**": true,
-    "r[!o]*/**": true,
-    "ro[!u]*/**": true,
-    "rou[!l]*/**": true,
-    "roul[!e]*/**": true,
-    "roule[!t]*/**": true,
-    "roulet[!t]*/**": true,
-    "roulett[!e]*/**": true,
-    "roulette[!g]*/**": true,
-    "rouletteg[!a]*/**": true,
-    "roulettega[!m]*/**": true,
-    "roulettegam[!e]*/**": true,
-    "roulettegame[!V]*/**": true,
-    "roulettegameV[!i]*/**": true,
-    "roulettegameVi[!e]*/**": true,
-    "roulettegameVie[!w]*/**": true,
-    "roulettegameView/[!s]*/**": true,
-    "roulettegameView/s[!r]*/**": true,
-    "roulettegameView/sr[!c]*/**": true
+    "**/Thumbs.db": true
   }
 }

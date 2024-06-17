@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("roulettegame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eff29767611aaf7c493e07ac30a14360f33ed4bc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+35c0f38dec165b93a742153303cf301b126948b1")]
 [assembly: System.Reflection.AssemblyProductAttribute("roulettegame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("roulettegame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

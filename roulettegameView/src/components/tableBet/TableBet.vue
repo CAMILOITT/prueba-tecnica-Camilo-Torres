@@ -13,7 +13,7 @@ const listColorMoney = [
   { color: '#276FBF', value: 20 }
 ]
 
-const money = ref(5)
+const money = ref(listColorMoney[0].value)
 const refDialogWinner = ref()
 let resultBet = reactive<RequestBet>({
   gain: 0,
@@ -77,7 +77,6 @@ function closeDialog() {
       <h3>resultados</h3>
       <p>{{ resultBet.color }}</p>
       <button @click="closeDialog"> aceptar</button>
-
     </div>
   </dialog>
 
@@ -221,4 +220,4 @@ function closeDialog() {
     font-weight: bold;
   }
 }
-</style>inject, import { UserInject } from '../../type/user';
+</style>
