@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted, inject } from 'vue'
+import { inject, ref } from 'vue';
 import { UserInformation, UserInject } from '../../type/user';
-const refDialog = ref()
+const refDialogAccount = ref()
 const { infoUser, setName, setMoney } = inject('infoUser') as UserInject
 
-const nameValue = ref(infoUser.name)
+const nameValue = ref(infoUser.name);
+
 async function saveGain() {
+  if (!infoUser.name || infoUser.name === `Anonymous`) return
+
   fetch('https://localhost:44342/api/Player/SaveAgain', {
     method: 'POST',
     body: JSON.stringify({ ...infoUser, name: nameValue.value }),
@@ -17,13 +20,15 @@ async function saveGain() {
     setName(data.name)
     setMoney(data.amount)
   }).catch(e => console.log(e)).finally(() => {
-    (refDialog.value as HTMLDialogElement).close()
+    (refDialogAccount.value as HTMLDialogElement).close()
   })
 }
 
 
 function openDialog() {
-  (refDialog.value as HTMLDialogElement).showModal()
+  console.dir(refDialogAccount);
+
+  (refDialogAccount.value as HTMLDialogElement).showModal()
   if (!infoUser.name || infoUser.name === `Anonymous`) return
   saveGain()
 }
@@ -34,25 +39,38 @@ function openDialog() {
   <button @click="openDialog" class="btn-save">
     guardar partida
   </button>
-  <dialog ref="refDialog" class="dialog">
 
-    <div v-if="!infoUser.name || infoUser.name === `Anonymous`">
+  <dialog ref="refDialogAccount" class="dialog" :open="false">
+    <div v-if="!infoUser.name || infoUser.name === `Anonymous`" class="form-account">
       <label for="Username">
         nombre de usuario:
         <input type="text" name="username" id="Username" :value="nameValue"
           @input="event => nameValue = `${(event?.target as HTMLInputElement)!.value as string}`">
       </label>
-      <button @click="saveGain">ingresar con cuenta</button>
+      <button @click="saveGain" class="btn">crear cuenta</button>
+      <button @click="refDialogAccount.close" class="btn">cancelar</button>
     </div>
-    <div v-else>
-
+    <div v-else class="load">
       ... cargando
     </div>
-
   </dialog>
 </template>
 
 <style scoped>
+.load {
+  padding: 1rem 2rem;
+}
+
+.btn {
+  padding: .5rem 1rem;
+  background-color: #4CAF50;
+}
+
+.form-account {
+  display: grid;
+  gap: 1rem;
+}
+
 .dialog {
   position: absolute;
   top: 50%;
@@ -60,9 +78,6 @@ function openDialog() {
   transform: translate(-50%, -50%);
   padding: 1rem;
   border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
 }
 
 label {

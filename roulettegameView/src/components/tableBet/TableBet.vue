@@ -6,7 +6,6 @@ import { UserInject } from '../../type/user';
 
 const { infoUser } = inject('infoUser') as UserInject
 
-
 const listColorMoney = [
   { color: '#F03A47', value: 5 },
   { color: '#2F195F', value: 10 },
@@ -15,7 +14,7 @@ const listColorMoney = [
 ]
 
 const money = ref(5)
-const refDialog = ref()
+const refDialogWinner = ref()
 let resultBet = reactive<RequestBet>({
   gain: 0,
   isWinner: false,
@@ -23,9 +22,7 @@ let resultBet = reactive<RequestBet>({
   number: 0,
 })
 
-let listBet: { typeBet: TypeBet, value: string, amount: number }[] = [
-
-]
+let listBet: { typeBet: TypeBet, value: string, amount: number }[] = []
 
 function accBet(typeBet: TypeBet, value: string) {
   if (infoUser.amount < money.value) return
@@ -54,12 +51,12 @@ async function sendBet() {
       infoUser.gain = infoUser.gain + data.gain
       infoUser.amount = infoUser.amount + data.gain
     }
-    refDialog.value.showModal()
+    refDialogWinner.value.showModal()
   }).catch(e => console.log(e))
 }
 
 function closeDialog() {
-  (refDialog.value as HTMLDialogElement).close()
+  (refDialogWinner.value as HTMLDialogElement).close()
 }
 
 
@@ -67,7 +64,7 @@ function closeDialog() {
 
 <template>
 
-  <dialog ref="refDialog" class="dialog" >
+  <dialog ref="refDialogWinner" class="dialog">
     <div v-if="resultBet.isWinner">
       <h1>GANASTE</h1>
       <p>{{ resultBet.gain }}</p>
@@ -94,7 +91,7 @@ function closeDialog() {
       <div class="bet-general">
         <ItemBet class="item-bet" value="par" :type-bet="TypeBet.even" :amount="money" @set-value="accBet" />
         <ItemBet class="item-bet" value="red" :type-bet="TypeBet.red" :amount="money" @set-value="accBet" />
-        <ItemBet class="item-bet" value="bla  ck" :type-bet="TypeBet.black" :amount="money" @set-value="accBet" />
+        <ItemBet class="item-bet" value="black" :type-bet="TypeBet.black" :amount="money" @set-value="accBet" />
         <ItemBet class="item-bet" value="impar" :type-bet="TypeBet.odd" :amount="money" @set-value="accBet" />
       </div>
     </div>
@@ -107,7 +104,7 @@ function closeDialog() {
 </template>
 
 <style scoped>
-.dialog{
+.dialog {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -115,6 +112,7 @@ function closeDialog() {
   padding: 1rem;
   border-radius: 1rem;
 }
+
 .bet {
   position: absolute;
   bottom: 5px;
